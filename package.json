@@ -1,0 +1,28 @@
+{
+  "name": "execl-teamwork-task-creator",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node ./index.js",
+    "dev": "nodemon ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Keenethics",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cron": "^1.7.2",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "lodash": "^4.17.15",
+    "pg": "^7.14.0",
+    "sequelize": "^5.21.2"
+  },
+  "devDependencies": {
+    "dotenv-safe": "^8.2.0",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "nodemon": "^2.0.0"
+  }
+}
