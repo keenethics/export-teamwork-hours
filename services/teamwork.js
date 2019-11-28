@@ -1,6 +1,6 @@
 const Axios = require('axios');
 
-const { TEAMWORK_API_KEY, TEAMWORK_PROJECT_NAME } = process.env;
+const { TEAMWORK_API_KEY, TEAMWORK_PROJECT_ID } = process.env;
 let tasklistId = -1;
 
 const axios = Axios.create({
@@ -12,20 +12,18 @@ const axios = Axios.create({
   }
 });
 
-const getAllTasklist = () => axios.get('/tasklists.json');
+const getAllTasklist = () =>
+  axios.get(`/projects/${TEAMWORK_PROJECT_ID}/tasklists.json`);
 
-const getAllTasks = () => axios.get(`/tasklists/${tasklistId}/tasks.json`);
+const getAllTasks = (page = 1) =>
+  axios.get(`/tasklists/${tasklistId}/tasks.json?page=${page}`);
 
 const getAllPeople = () => axios.get('/people.json');
 
 const getTasklistID = async () => {
   try {
     const { data } = await getAllTasklist();
-
-    const tasklist = data.tasklists.find(
-      ({ projectName, name }) =>
-        projectName === TEAMWORK_PROJECT_NAME && name === 'General'
-    );
+    const tasklist = data.tasklists.find(({ name }) => name === 'General');
 
     return tasklist.id;
   } catch (err) {
@@ -39,7 +37,11 @@ const getTasksName = async () => {
     const { data } = await getAllTasks();
 
     const tasksName = data['todo-items'].map(({ content }) => content);
-
+    console.log(
+      'tasksName: ',
+      tasksName.length,
+      [...new Set(tasksName)].length
+    );
     return tasksName;
   } catch (err) {
     console.error('error getTasksName: ', err);
@@ -57,7 +59,6 @@ const createNewTask = body => {
 
 const getPeopleEmailsAndId = async () => {
   const { data: allPeople } = await getAllPeople();
-  // console.log;
   const emailsAndId = allPeople.people.reduce((acc, people) => {
     if (/@keenethics.com$/.test(people['email-address'])) {
       acc[people['email-address']] = people.id;
@@ -85,5 +86,6 @@ getTasklistID()
 module.exports = {
   createNewTask,
   getTasksName,
-  getPeopleEmailsAndId
+  getPeopleEmailsAndId,
+  getAllTasks
 };

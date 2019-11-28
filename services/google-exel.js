@@ -56,10 +56,10 @@ const getData = async (rangeName, sheetId) => {
 
 const getUserAndEmail = async () => {
   const userPage = await getData('workload', SHEET_ID);
-  const userAndEmail = userPage.reduce(
-    (acc, user) => (acc[user.email] = user['Имя']),
-    {}
-  );
+  const userAndEmail = userPage.reduce((acc, user) => {
+    acc[user['Имя']] = user.email;
+    return acc;
+  }, {});
 
   return userAndEmail;
 };
