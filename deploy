@@ -1,0 +1,6 @@
+#!/bin/bash
+ssh root@167.71.71.176 pm2 stop server
+ssh root@167.71.71.176 rm -rf /home/tcc-tasks
+rsync -a --progress --exclude "node_modules" ../tcc-tasks/ root@167.71.71.176:/home/tcc-tasks
+ssh root@167.71.71.176 "cd /home/tcc-tasks ; npm i"
+ssh root@167.71.71.176 "cd /home/tcc-tasks ; pm2 restart index.js"

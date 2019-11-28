@@ -19,8 +19,6 @@ app.db = require('./models');
 
 require('./jobs');
 
-const teamwork = require('./services/teamwork');
-
 // teamwork.createNewTask({
 //   'todo-item': {
 //     content: 'test content',
@@ -40,18 +38,22 @@ app.use(helmet());
 
 // app.get('/*', (req, res) => res.sendFile(path.join(__dirname, `../${isProduction ? 'dist' : 'client'}/index.html`)));
 
+app.get('/', (req, res) => {
+  res.send('Hello world');
+});
+
 const port = process.env.APP_PORT || 3001;
 const host = process.env.APP_HOST || 'localhost';
 
-app.db.sequelize
-  .authenticate()
-  .then(() => {
-    app.listen(port, host, () => {
-      console.log(`Server running at http://${host}:${port}`);
-    });
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+// app.db.sequelize
+//   .authenticate()
+//   .then(() => {
+app.listen(port, () => {
+  console.log(`Server running at http://${host}:${port}`);
+});
+// })
+// .catch(err => {
+//   console.error('Unable to connect to the database:', err);
+// });
 
 module.exports = app;

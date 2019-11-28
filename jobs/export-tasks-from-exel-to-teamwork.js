@@ -57,16 +57,15 @@ async function createTasks() {
     });
 
     for (const task of tasks) {
-      console.log(task.content, task.completed, task['due-date']);
       await teamwork.createNewTask({ 'todo-item': task });
     }
+
+    console.log('Copy completed');
   } catch (err) {
     console.error('scheduleJob error: ', err);
   }
 }
 
 const j = schedule.scheduleJob('0 0 0 */1 * *', createTasks);
-
-setTimeout(createTasks, 4000);
 
 module.exports = j;
